@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://dufkfsontgdo4"]
+
+[ext_resource type="Script" path="res://scripts/homepage.gd" id="1_vrkwx"]
+
+[node name="Homepage" type="Node2D"]
+script = ExtResource("1_vrkwx")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 297.0
+offset_top = 430.0
+offset_right = 949.0
+offset_bottom = 521.0
+theme_override_font_sizes/font_size = 60
+disabled = true
+text = "Play"
+metadata/_edit_use_anchors_ = true
+
+[node name="ItemList" type="ItemList" parent="."]
+offset_left = -946.0
+offset_top = -525.0
+offset_right = 272.0
+offset_bottom = 523.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="ItemList2" type="ItemList" parent="."]
+offset_left = 296.0
+offset_top = -525.0
+offset_right = 949.0
+offset_bottom = 407.0
+item_count = 5
+item_0/text = "EZ"
+item_1/text = "HD"
+item_2/text = "IN"
+item_3/text = "AT"
+item_4/text = "SP"
+
+[node name="DifficultyNotFound" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = -447.0
+offset_top = -35.0
+offset_right = 448.0
+offset_bottom = 35.0
+theme_override_font_sizes/font_size = 50
+text = "The selected difficulty does not exist!"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="empty_clicked" from="ItemList" to="." method="_on_item_list_empty_clicked"]
+[connection signal="item_selected" from="ItemList" to="." method="_on_item_list_item_selected"]

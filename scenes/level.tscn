@@ -1,0 +1,134 @@
+[gd_scene load_steps=7 format=3 uid="uid://10v6v0p7ds0b"]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_gupd6"]
+[ext_resource type="Shader" path="res://shaders/v_blur.gdshader" id="2_fgv5r"]
+[ext_resource type="Shader" path="res://shaders/h_blur.gdshader" id="3_4wf6r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4it3i"]
+shader = ExtResource("2_fgv5r")
+shader_parameter/kernel_size = 160
+shader_parameter/sigma = 50.0
+shader_parameter/darkness = 0.5
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fqrwh"]
+viewport_path = NodePath("VerticalBlurLayer/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1ivm1"]
+shader = ExtResource("3_4wf6r")
+shader_parameter/kernel_size = 160
+shader_parameter/sigma = 50.0
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_gupd6")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="FPS" type="Label" parent="."]
+offset_left = -946.0
+offset_top = 460.0
+offset_right = -733.0
+offset_bottom = 529.0
+theme_override_font_sizes/font_size = 40
+text = "FPS: 60"
+vertical_alignment = 2
+
+[node name="Accuracy" type="Label" parent="."]
+offset_left = -946.0
+offset_top = 460.0
+offset_right = 947.0
+offset_bottom = 529.0
+theme_override_font_sizes/font_size = 40
+text = "100.00%"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Score" type="Label" parent="."]
+offset_left = -946.0
+offset_top = -535.0
+offset_right = 947.0
+offset_bottom = -466.0
+theme_override_font_sizes/font_size = 50
+text = "0000000"
+horizontal_alignment = 2
+
+[node name="Combo" type="Label" parent="."]
+offset_left = -708.0
+offset_top = -539.0
+offset_right = 709.0
+offset_bottom = -456.0
+theme_override_font_sizes/font_size = 60
+text = "0"
+horizontal_alignment = 1
+
+[node name="ComboText" type="Label" parent="Combo"]
+layout_mode = 0
+offset_left = 605.0
+offset_top = 70.0
+offset_right = 812.0
+offset_bottom = 151.0
+theme_override_font_sizes/font_size = 20
+text = "COMBO"
+horizontal_alignment = 1
+
+[node name="Pause" type="Button" parent="."]
+offset_left = -946.0
+offset_top = -528.0
+offset_right = -872.0
+offset_bottom = -454.0
+theme_override_font_sizes/font_size = 20
+text = "Pause"
+
+[node name="PauseScreen" type="ColorRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(1920, 1080)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.498039)
+
+[node name="Homepage" type="Button" parent="PauseScreen"]
+layout_mode = 0
+offset_left = 570.0
+offset_top = 487.0
+offset_right = 892.0
+offset_bottom = 593.0
+theme_override_font_sizes/font_size = 50
+text = "Homepage"
+
+[node name="Resume" type="Button" parent="PauseScreen"]
+layout_mode = 0
+offset_left = 1024.0
+offset_top = 487.0
+offset_right = 1346.0
+offset_bottom = 593.0
+theme_override_font_sizes/font_size = 50
+text = "Resume"
+
+[node name="VerticalBlurLayer" type="Sprite2D" parent="."]
+z_index = -5
+z_as_relative = false
+material = SubResource("ShaderMaterial_4it3i")
+texture = SubResource("ViewportTexture_fqrwh")
+
+[node name="SubViewport" type="SubViewport" parent="VerticalBlurLayer"]
+size = Vector2i(1920, 1080)
+
+[node name="HorizontalBlurLayer" type="Sprite2D" parent="VerticalBlurLayer/SubViewport"]
+z_index = -5
+z_as_relative = false
+material = SubResource("ShaderMaterial_1ivm1")
+position = Vector2(960, 540)
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -4
+z_as_relative = false
+
+[connection signal="finished" from="Music" to="." method="_on_music_finished"]
+[connection signal="pressed" from="Pause" to="." method="_on_pause_pressed"]
+[connection signal="pressed" from="PauseScreen/Homepage" to="." method="_on_homepage_pressed"]
+[connection signal="pressed" from="PauseScreen/Resume" to="." method="_on_resume_pressed"]

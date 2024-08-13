@@ -1,0 +1,13 @@
+# Godot 4+ specific ignores
+.godot/
+
+assets/game/*
+!assets/game/hit_effects
+assets/game/hit_effects/*
+!assets/game/hit_effects/square.png
+!assets/game/hit_effects/square.png.import
+assets/levels/*
+assets/ui/*
+!assets/**/.gitkeep
+
+exports/

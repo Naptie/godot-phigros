@@ -1,0 +1,81 @@
+[gd_scene load_steps=13 format=3 uid="uid://bimnf7vg6rm4e"]
+
+[ext_resource type="Script" path="res://scripts/note_part.gd" id="1_5twgq"]
+[ext_resource type="Texture2D" uid="uid://dvbneox0gjx4x" path="res://assets/game/Tap.png" id="2_llyil"]
+[ext_resource type="Texture2D" uid="uid://dgf20trkxe1f7" path="res://assets/game/Drag.png" id="3_8irbo"]
+[ext_resource type="Texture2D" uid="uid://dv3u3b75tovo6" path="res://assets/game/Flick.png" id="4_ap84p"]
+[ext_resource type="Texture2D" uid="uid://cb8ox3bigg8gg" path="res://assets/game/HoldHead.png" id="5_5j1ex"]
+[ext_resource type="Texture2D" uid="uid://b5u2i6lanbovy" path="res://assets/game/Hold.png" id="6_tejf1"]
+[ext_resource type="Texture2D" uid="uid://01xrtichl6li" path="res://assets/game/TapHL.png" id="7_mpnl7"]
+[ext_resource type="Texture2D" uid="uid://dnd6ph0sfisdd" path="res://assets/game/DragHL.png" id="8_nqjtq"]
+[ext_resource type="Texture2D" uid="uid://vvfr3l8e6x0r" path="res://assets/game/FlickHL.png" id="9_akynx"]
+[ext_resource type="Texture2D" uid="uid://ux0k6jcxcmwl" path="res://assets/game/HoldHeadHL.png" id="10_o4ktp"]
+[ext_resource type="Texture2D" uid="uid://b03a5x7p3qe2j" path="res://assets/game/HoldHL.png" id="11_hdi80"]
+[ext_resource type="Texture2D" uid="uid://dmds61eb2sje2" path="res://assets/game/HoldEnd.png" id="12_hlc50"]
+
+[node name="NotePart" type="Node2D"]
+z_index = -2
+z_as_relative = false
+script = ExtResource("1_5twgq")
+
+[node name="Tap" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_llyil")
+
+[node name="Drag" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_8irbo")
+
+[node name="Flick" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_ap84p")
+
+[node name="HoldHead" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+position = Vector2(0, 25)
+texture = ExtResource("5_5j1ex")
+
+[node name="HoldBody" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+texture = ExtResource("6_tejf1")
+
+[node name="TapHL" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("7_mpnl7")
+
+[node name="DragHL" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("8_nqjtq")
+
+[node name="FlickHL" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("9_akynx")
+
+[node name="HoldHeadHL" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+position = Vector2(0, 49.67)
+scale = Vector2(1.025, 1.025)
+texture = ExtResource("10_o4ktp")
+
+[node name="HoldBodyHL" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+scale = Vector2(1.025, 1.025)
+texture = ExtResource("11_hdi80")
+
+[node name="HoldTail" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+position = Vector2(0, -25)
+texture = ExtResource("12_hlc50")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -343.0
+offset_right = 341.0
+offset_bottom = 273.0
+theme_override_font_sizes/font_size = 200
+horizontal_alignment = 1

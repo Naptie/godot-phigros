@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dis1a70a2xbcq"]
+
+[ext_resource type="Script" path="res://scripts/judgeline.gd" id="1_hx8pw"]
+[ext_resource type="Texture2D" uid="uid://chxknvbxjx6sw" path="res://assets/game/line.png" id="2_eud2y"]
+
+[node name="Judgeline" type="Node2D"]
+z_index = -4
+z_as_relative = false
+script = ExtResource("1_hx8pw")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Texture" type="Sprite2D" parent="."]
+scale = Vector2(1.44, 1.44)
+texture = ExtResource("2_eud2y")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -44.0
+offset_top = 6.0
+offset_right = 44.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
