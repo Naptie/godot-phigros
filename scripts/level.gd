@@ -43,12 +43,18 @@ var finger_resistance := {}
 
 
 func _ready():
-	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	var chart = path + "/" + "Chart_" + level + ".json"
 	var song = path + "/" + "music.ogg"
 	var illustration = path + "/" + "Illustration.png"
 	background_temp.texture = load(illustration)
 	$SubViewport/VerticalBlurLayer.material.set("shader_parameter/darkness", Globals.bg_darkness)
+	var thread = Thread.new()
+	thread.start(func ():
+		await get_tree().create_timer(0.5).timeout
+		var image = background.texture.get_image()
+		background.texture = ImageTexture.create_from_image(image)
+		$SubViewport/VerticalBlurLayer.visible = false
+	)
 	music.stream = load(song)
 	load_chart(chart)
 	preprocess()
@@ -64,15 +70,12 @@ func _process(delta):
 	$Accuracy.text = "AUTOPLAY" if Globals.is_autoplay else ("%.2f" % (roundf(accuracy * 1e4) / 1e2) + "%")
 	if music.playing:
 		time_in_seconds = music.get_playback_position() - offset / 1000
-		if time_in_seconds > 1 and $SubViewport/VerticalBlurLayer.visible:
-			background.texture = ImageTexture.create_from_image(background.texture.get_image())
-			$SubViewport/VerticalBlurLayer.visible = false
 		for judgeline in judgelines:
 			judgeline.draw(time_in_seconds, delta)
 		for judgeline in judgelines:
-			judgeline.texture.modulate.r = color.r
-			judgeline.texture.modulate.g = color.g
-			judgeline.texture.modulate.b = color.b
+			judgeline.texture.self_modulate.r = color.r
+			judgeline.texture.self_modulate.g = color.g
+			judgeline.texture.self_modulate.b = color.b
 			judgeline.label.self_modulate = judgeline.texture.self_modulate
 		for i in fingers:
 			handle_drag(fingers[i])

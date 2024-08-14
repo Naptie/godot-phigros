@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://10v6v0p7ds0b"]
+[gd_scene load_steps=8 format=3 uid="uid://10v6v0p7ds0b"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_gupd6"]
 [ext_resource type="Shader" path="res://shaders/v_blur.gdshader" id="2_fgv5r"]
 [ext_resource type="Shader" path="res://shaders/h_blur.gdshader" id="3_4wf6r"]
-[ext_resource type="Texture2D" uid="uid://b6cobvdd08527" path="res://assets/levels/BreakOver/Illustration.png" id="4_jhwk3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4it3i"]
 shader = ExtResource("2_fgv5r")
@@ -117,7 +116,7 @@ text = "Resume"
 size = Vector2i(1920, 1080)
 
 [node name="VerticalBlurLayer" type="Sprite2D" parent="SubViewport"]
-z_index = -5
+z_index = -6
 z_as_relative = false
 material = SubResource("ShaderMaterial_4it3i")
 position = Vector2(960, 540)
@@ -131,10 +130,9 @@ z_index = -5
 z_as_relative = false
 material = SubResource("ShaderMaterial_1ivm1")
 position = Vector2(960, 540)
-texture = ExtResource("4_jhwk3")
 
 [node name="Background" type="Sprite2D" parent="."]
-z_index = -4
+z_index = -5
 z_as_relative = false
 texture = SubResource("ViewportTexture_fmoef")
 
