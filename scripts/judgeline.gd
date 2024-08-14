@@ -115,7 +115,8 @@ func handle_opacities(time):
 
 func handle_notes(time, notes, modifier: int):
 	for note in notes:
-		if (!note.visible or note.modulate.a == 0 or note.scale.y == 0) and note.judge != note.JudgeType.UNJUDGED and note.note.time + note.note.hold_time < time - 16:
+		if (!note.visible or note.modulate.a == 0 or note.scale.y == 0) and note.judge != note.JudgeType.UNJUDGED \
+			and note.judge != note.JudgeType.UNINVOLVED and note.note.time + note.note.hold_time < time - 32:
 			notes.erase(note)
 			$"..".notes.erase(note)
 			note.queue_free()
@@ -132,7 +133,7 @@ func handle_notes(time, notes, modifier: int):
 		if (note.note.time > time or !note.hold_head) and note.judge != note.JudgeType.BAD:
 			if note.note.type != note.NoteType.HOLD or note.hold_head or note.hold_tail:
 				note.scale = Vector2.ONE * Globals.note_size * modifier
-				if note.judge == note.JudgeType.UNJUDGED:
+				if note.judge == note.JudgeType.UNJUDGED or note.judge == note.JudgeType.UNINVOLVED:
 					note.visible = note.position.y / modifier <= 0 or note.note.time < time + Globals.EPS
 				if note.hold_head:
 					note.position.y = -calculate_distance(time, note.note.time) * modifier

@@ -75,11 +75,11 @@ func _ready():
 
 
 func autoplay(time: float):
-	if judge != JudgeType.UNJUDGED:
+	if judge != JudgeType.UNJUDGED and judge != JudgeType.UNINVOLVED:
 		return
 	judge = JudgeType.PERFECT
 	visible = false
-	if note.type != NoteType.HOLD or hold_head or hold_tail:
+	if note.type != NoteType.HOLD or hold_head:
 		#print("Global: (" + str(global_position.x) + ", " + str(global_position.y) + ", " + str(global_rotation) + "); Relative: (" + str(position.x) + ", " + str(position.y) + ", " + str(rotation) + "); Line: (" + str(judgeline.position.x) + ", " + str(judgeline.position.y) + ", " + str(judgeline.rotation) + ");")
 		var judge_position = judgeline.position + Vector2(cos(judgeline.rotation), sin(judgeline.rotation)) * position.x
 		if hold_head:
@@ -90,14 +90,13 @@ func autoplay(time: float):
 				on_judge.emit(judge, self, judge_position, false, false, !head)
 				head = false
 				await get_tree().create_timer(30 / bpm).timeout
-		elif hold_tail:
 			on_judge.emit(judge, self, judge_position, true, true, true)
 		else:
 			on_judge.emit(judge, self, judge_position, true, false, false)
 
 
 func handle_input(time_in_seconds: float, event: InputEventFromWindow):
-	if judge != JudgeType.UNJUDGED:
+	if judge != JudgeType.UNJUDGED and judge != JudgeType.UNINVOLVED:
 		return
 	var delta = 1e3 * (time_in_seconds - Globals.cs(note.time, bpm))
 	if abs(delta) <= Globals.perfect:
