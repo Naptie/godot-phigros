@@ -12,7 +12,7 @@ const WHITE := Color8(255, 255, 255)
 const NotePart = preload("res://scripts/note_part.gd")
 
 @onready var music = $Music
-@onready var background_temp = $VerticalBlurLayer/SubViewport/HorizontalBlurLayer
+@onready var background_temp = $SubViewport/VerticalBlurLayer/SubViewport/HorizontalBlurLayer
 @onready var background = $Background
 @onready var pause_screen = $PauseScreen
 
@@ -43,11 +43,12 @@ var finger_resistance := {}
 
 
 func _ready():
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	var chart = path + "/" + "Chart_" + level + ".json"
 	var song = path + "/" + "music.ogg"
 	var illustration = path + "/" + "Illustration.png"
 	background_temp.texture = load(illustration)
-	$VerticalBlurLayer.material.set("shader_parameter/darkness", Globals.bg_darkness)
+	$SubViewport/VerticalBlurLayer.material.set("shader_parameter/darkness", Globals.bg_darkness)
 	music.stream = load(song)
 	load_chart(chart)
 	preprocess()
@@ -63,15 +64,15 @@ func _process(delta):
 	$Accuracy.text = "AUTOPLAY" if Globals.is_autoplay else ("%.2f" % (roundf(accuracy * 1e4) / 1e2) + "%")
 	if music.playing:
 		time_in_seconds = music.get_playback_position() - offset / 1000
-		#if time_in_seconds > 1 and $VerticalBlurLayer.visible:
-			#background.texture = ImageTexture.create_from_image($VerticalBlurLayer.texture.get_image())
-			#$VerticalBlurLayer.visible = false
+		if time_in_seconds > 1 and $SubViewport/VerticalBlurLayer.visible:
+			background.texture = ImageTexture.create_from_image(background.texture.get_image())
+			$SubViewport/VerticalBlurLayer.visible = false
 		for judgeline in judgelines:
 			judgeline.draw(time_in_seconds, delta)
 		for judgeline in judgelines:
-			judgeline.texture.self_modulate.r = color.r
-			judgeline.texture.self_modulate.g = color.g
-			judgeline.texture.self_modulate.b = color.b
+			judgeline.texture.modulate.r = color.r
+			judgeline.texture.modulate.g = color.g
+			judgeline.texture.modulate.b = color.b
 			judgeline.label.self_modulate = judgeline.texture.self_modulate
 		for i in fingers:
 			handle_drag(fingers[i])
@@ -229,7 +230,8 @@ func _on_resume_pressed():
 func _unhandled_input(event):
 	if !(event is InputEventFromWindow):
 		return
-	event.position -= Vector2(Globals.BASE_WIDTH, Globals.BASE_HEIGHT) / 2
+	if "position" in event:
+		event.position -= Vector2(Globals.BASE_WIDTH, Globals.BASE_HEIGHT) / 2
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			fingers[event.index] = event
