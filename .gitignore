@@ -8,6 +8,9 @@ assets/game/hit_effects/*
 !assets/game/hit_effects/square.png.import
 assets/levels/*
 assets/ui/*
-!assets/**/.gitkeep
 
-exports/
+exports/*
+
+export_presets.cfg
+
+!**/.gitkeep
