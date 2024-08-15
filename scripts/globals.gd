@@ -5,7 +5,7 @@ const BASE_HEIGHT := 1080.0
 const EPS := 1e-4
 
 var note_size := 0.25
-var is_autoplay := false
+var is_autoplay := true
 var bg_darkness := 0.5
 var judge_radius := 300
 var flick_velocity := 300

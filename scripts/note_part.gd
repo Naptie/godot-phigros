@@ -80,6 +80,12 @@ func autoplay(time: float):
 	judge = JudgeType.PERFECT
 	visible = false
 	if note.type != NoteType.HOLD or hold_head:
+		var scene = load("res://scenes/square.tscn")
+		for i in 48:
+			for j in 27:
+				var pos = Vector2(i, j) * 40 - Vector2(940, 520)
+				if level.judge_distance(pos, self) <= Globals.judge_radius / 10:
+					level.put(scene, pos)
 		#print("Global: (" + str(global_position.x) + ", " + str(global_position.y) + ", " + str(global_rotation) + "); Relative: (" + str(position.x) + ", " + str(position.y) + ", " + str(rotation) + "); Line: (" + str(judgeline.position.x) + ", " + str(judgeline.position.y) + ", " + str(judgeline.rotation) + ");")
 		var judge_position = judgeline.position + Vector2(cos(judgeline.rotation), sin(judgeline.rotation)) * position.x
 		if hold_head:

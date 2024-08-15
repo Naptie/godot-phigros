@@ -119,7 +119,7 @@ func handle_notes(time, notes, modifier: int):
 			and note.judge != note.JudgeType.UNINVOLVED and note.note.time + note.note.hold_time < time - 32:
 			notes.erase(note)
 			$"..".notes.erase(note)
-			note.queue_free()
+			#note.queue_free()
 			continue
 		if note.note.time < time + Globals.EPS:
 			if note.note.type != note.NoteType.HOLD or note.hold_head or note.note.time + note.note.hold_time <= time:

@@ -1,14 +1,14 @@
 extends Node2D
 
-const JUDGELINE_SCENE := "res://scenes/judgeline.tscn"
-const HIT_EFFECTS_SCENE := "res://scenes/hit_effects.tscn"
-const HIT_SOUND_SCENE := "res://scenes/hit_sound.tscn"
+const JUDGELINE_SCENE = "res://scenes/judgeline.tscn"
+const HIT_EFFECTS_SCENE = "res://scenes/hit_effects.tscn"
+const HIT_SOUND_SCENE = "res://scenes/hit_sound.tscn"
 const TAP_HIT = "res://assets/game/tap.wav"
 const DRAG_HIT = "res://assets/game/drag.wav"
 const FLICK_HIT = "res://assets/game/flick.wav"
-const PERFECT := Color8(255, 255, 180)
-const GOOD := Color8(179, 236, 255)
-const WHITE := Color8(255, 255, 255)
+const PERFECT = Color8(255, 255, 180)
+const GOOD = Color8(179, 236, 255)
+const WHITE = Color8(255, 255, 255)
 const NotePart = preload("res://scripts/note_part.gd")
 
 @onready var music = $Music
@@ -21,6 +21,10 @@ var level: String
 var notes: Array[Node]
 var note_count: int
 var offset := 0
+
+var tap_hit: Resource
+var drag_hit: Resource
+var flick_hit: Resource
 
 var time_in_seconds: float
 var bpm: float
@@ -56,6 +60,9 @@ func _ready():
 		$SubViewport/VerticalBlurLayer.visible = false
 	)
 	music.stream = load(song)
+	tap_hit = load(TAP_HIT)
+	drag_hit = load(DRAG_HIT)
+	flick_hit = load(FLICK_HIT)
 	load_chart(chart)
 	preprocess()
 	for judgeline in judgelines:
@@ -76,7 +83,7 @@ func _process(delta):
 			judgeline.texture.self_modulate.r = color.r
 			judgeline.texture.self_modulate.g = color.g
 			judgeline.texture.self_modulate.b = color.b
-			judgeline.label.self_modulate = judgeline.texture.self_modulate
+			#judgeline.label.self_modulate = judgeline.texture.self_modulate
 		for i in fingers:
 			handle_drag(fingers[i])
 			handle_flick(fingers[i])
@@ -186,13 +193,13 @@ func _on_judge(type, note, position, counted, hidden, muted):
 		var hit_sound = hit_sound_pool.pop_front()
 		match note.note.type:
 			NotePart.NoteType.TAP:
-				hit_sound.stream = load(TAP_HIT)
+				hit_sound.stream = tap_hit
 			NotePart.NoteType.HOLD:
-				hit_sound.stream = load(TAP_HIT)
+				hit_sound.stream = tap_hit
 			NotePart.NoteType.DRAG:
-				hit_sound.stream = load(DRAG_HIT)
+				hit_sound.stream = drag_hit
 			NotePart.NoteType.FLICK:
-				hit_sound.stream = load(FLICK_HIT)
+				hit_sound.stream = flick_hit
 		hit_sound.position = position if Globals.is_in_screen(position) else Vector2(clampf(position.x, -Globals.BASE_WIDTH / 2, Globals.BASE_WIDTH / 2), 0)
 		add_child(hit_sound)
 		hit_sound.play()
@@ -339,9 +346,17 @@ func apply_resistance(vector: Vector2, angle: float) -> Vector2:
 
 func judge_distance(position: Vector2, note: Node):
 	var position_delta = position - note.judgeline.position
-	return abs(position.x * cos(note.judgeline.rotation) + position.y * sin(note.judgeline.rotation) - note.position.x)
+	return abs(position.x * cos(note.judgeline.rotation) + position.y * sin(note.judgeline.rotation) * Globals.BASE_WIDTH / Globals.BASE_HEIGHT - note.position.x)
 
 
 func space_time_distance_sq(position: Vector2, note: Node, time_in_seconds: float):
 	var time_delta = time_in_seconds - Globals.cs(note.note.time, note.bpm)
 	return judge_distance(position, note) ** 2 + time_delta ** 2
+
+
+func put(scene, pos):
+	var square = scene.instantiate()
+	square.position = pos
+	add_child(square)
+	var tween = create_tween().set_trans(Tween.TRANS_SINE)
+	tween.tween_property(square, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN)

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgpvbhf2vmj25"]
+
+[ext_resource type="Texture2D" uid="uid://pjh3kso1wvw5" path="res://assets/game/hit_effects/square.png" id="1_1lcs3"]
+
+[node name="Square" type="Sprite2D"]
+modulate = Color(1, 1, 1, 0.498039)
+scale = Vector2(40, 40)
+texture = ExtResource("1_1lcs3")
