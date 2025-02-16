@@ -1,4 +1,7 @@
-# godot-phigros
+# [⚠️DEPRECATED⚠️] godot-phigros
+
+> [!WARNING]  
+> **本项目已弃用。** 有关本人参与制作的新版 Phigros 模拟器，请见 **[PhiZone/player](https://github.com/PhiZone/player)** 项目。
 
 使用 Godot 实现的 Phigros 模拟器。
 
